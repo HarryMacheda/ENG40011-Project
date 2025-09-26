@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from typing import List
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 import jwt
@@ -35,17 +36,28 @@ class TokenManager:
         to_encode.update({"exp": expire})
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     
-    def decodeAccessTocken(self, token:str):
+    def decodeAccessToken(self, token:str):
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     
     def getCurrentToken(self, token: str = Depends(oauth2_scheme)):
         try:
-            payload =  TokenManager().decodeAccessTocken(token)
+            payload =  TokenManager().decodeAccessToken(token)
             client_id: str = payload.get("sub")
             if not ApiClientStore().isValidClient(client_id):
                 raise HTTPException(status_code=401, detail="Invalid token")
-            return client_id
+            return payload
         except jwt.ExpiredSignatureError:
             raise HTTPException(status_code=401, detail="Token expired")
         except jwt.InvalidTokenError:
             raise HTTPException(status_code=401, detail="Invalid token")
+        
+    def requireScope(scope: str):
+        def wrapper(token: dict = Depends(TokenManager().getCurrentToken)):    
+            return TokenManager.checkScope(token, scope)
+        return wrapper
+    
+    def checkScope(token:dict, scope:str):
+        scopes: List[str] = token.get("scopes", [])
+        if scope not in scopes:
+            raise HTTPException(status_code=403, detail="Insufficient permissions")
+        return token 
