@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import { darkenHex } from "@/utility/colour";
 
 
-export default function Teardrop({ value = 50, size = 150 }) {
+export default function Teardrop({ value = 50, size = 150, colour="#d90429"}) {
   const safeValue = Math.min(Math.max(value, 0), 100);
 
   const fillHeight = (safeValue / 100) * 125;
@@ -30,12 +31,12 @@ export default function Teardrop({ value = 50, size = 150 }) {
 
         <path
           d={`M0 ${y} Q25 ${y + 7}, 50 ${y} T100 ${y} V130 H0 Z`}
-          fill="#4f030fff"
+          fill={darkenHex(colour)}
           clipPath="url(#teardrop-clip)"
         />
         <path
           d={`M0 ${y} Q25 ${y - 15}, 50 ${y} T100 ${y} V130 H0 Z`}
-          fill="#d90429"
+          fill={colour}
           clipPath="url(#teardrop-clip)"
         />
         
