@@ -17,13 +17,23 @@ export class ApiClient {
     }
 
     async request<T>(endpoint: string, method: HttpMethod = "GET", body?: unknown): Promise<T> {
+
+        let requestBody: BodyInit | undefined;
+        if(body && body instanceof FormData) {
+            requestBody = body;
+        }
+        else {
+            requestBody = JSON.stringify(body);
+            this.headers["Content-Type"] = "application/json";
+        }
+        console.log(body, requestBody)
+
         const response = await fetch(`${this.baseUrl}${endpoint}`, {
             method,
             headers: {
-                "Content-Type": "application/json",
                 ...this.headers,
             },
-            body: body ? JSON.stringify(body) : undefined,
+            body: requestBody,
         });
 
         if (!response.ok) {
