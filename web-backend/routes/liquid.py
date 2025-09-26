@@ -19,11 +19,11 @@ async def post_detected_liquid(token:dict = Depends(TokenManager.requireScope("w
 
 @router.websocket("/detected/subscribe")
 async def subscribe_messages(websocket: WebSocket):
-    auth_header = websocket.headers.get("authorization")
-    if not auth_header or not auth_header.startswith("Bearer "):
+    token = websocket.query_params.get("token")
+    if not token:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return
-    token = auth_header.split(" ")[1]
+
     token = TokenManager.checkScope(TokenManager().decodeAccessToken(token), "read")
 
     await connectionManager.connect(websocket)
@@ -41,11 +41,11 @@ async def post_detected_liquid(alert:ColourAlert ,token:dict = Depends(TokenMana
 
 @router.websocket("/colour/subscribe")
 async def subscribe_messages(websocket: WebSocket):
-    auth_header = websocket.headers.get("authorization")
-    if not auth_header or not auth_header.startswith("Bearer "):
+    token = websocket.query_params.get("token")
+    if not token:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
         return
-    token = auth_header.split(" ")[1]
+
     token = TokenManager.checkScope(TokenManager().decodeAccessToken(token), "read")
 
     await connectionManager.connect(websocket)
