@@ -1,0 +1,95 @@
+import requests
+import time
+
+TOKEN_URL = "http://192.168.1.42:8000/auth/token"  # Your Raspberry Pi IP and token endpoint
+CLIENT_ID = "device_connector"
+CLIENT_SECRET = "82b9e9e2558940df96a813ff69e7dfd4"
+GRANT_TYPE = "client_credentials"
+
+class TokenHandler:
+    def __init__(self):
+        self.access_token = None
+        self.token_expiry = 0  # UNIX timestamp when token expires
+
+    def request_token(self):
+        data = {
+            "grant_type": GRANT_TYPE,
+            "client_id": CLIENT_ID,
+            "client_secret": CLIENT_SECRET
+        }
+        response = requests.post(TOKEN_URL, data=data)
+        if response.status_code == 200:
+            token_data = response.json()
+            self.access_token = token_data["access_token"]
+            # Refresh 1 minute before expiry (30 min token lifetime)
+            self.token_expiry = time.time() + (30 * 60) - 60
+            print("Access token obtained.")
+        else:
+            raise Exception(f"Failed to get token: {response.text}")
+
+    def get_token(self):
+        if not self.access_token or time.time() > self.token_expiry:
+            self.request_token()
+        return self.access_token
+
+def get_sensor_rgb():
+    """
+    Replace this placeholder with actual code to read RGB from your sensor.
+    For now, it returns a sample RGB tuple.
+    """
+    # TODO: Implement actual sensor reading here
+    sample_rgb = (150, 40, 50)  # Example values, replace with real sensor data
+    return sample_rgb
+
+def is_blood_color(rgb):
+    r, g, b = rgb
+    # Example blood color range - adjust these thresholds based on your calibration
+    if 100 < r < 200 and 0 < g < 80 and 0 < b < 80:
+        return True
+    return False
+
+def send_blood_detection(blood_detected, token_handler):
+    url = "http://RasberryPi IP address/liquid/detected"
+    headers = {
+        "Authorization": f"Bearer {token_handler.get_token()}"
+    }
+    # The backend expects a POST with token, no body needed
+    response = requests.post(url, headers=headers)
+    if response.status_code == 200:
+        print(f"Blood detection sent: {blood_detected}")
+    else:
+        print(f"Failed to send blood detection: {response.text}")
+
+def send_rgb_code(rgb, token_handler):
+    url = "http://Raberry Pi IP address/liquid/colour"
+    headers = {
+        "Authorization": f"Bearer {token_handler.get_token()}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "r": rgb[0],
+        "g": rgb[1],
+        "b": rgb[2]
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    if response.status_code == 200:
+        print("RGB color sent successfully.")
+    else:
+        print(f"Failed to send RGB color: {response.text}")
+
+def main():
+    token_handler = TokenHandler()
+
+    while True:
+        sensor_rgb = get_sensor_rgb()
+        blood_detected = is_blood_color(sensor_rgb)
+
+        send_blood_detection(blood_detected, token_handler)
+        send_rgb_code(sensor_rgb, token_handler)
+
+        # Adjust the sleep time based on how often you want to check sensor data
+        time.sleep(1)  # Example: check every 1 second
+
+if __name__ == "__main__":
+    main()
+
