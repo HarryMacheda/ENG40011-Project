@@ -1,7 +1,7 @@
 import requests
 import time
 
-TOKEN_URL = "http://192.168.1.42:8000/auth/token"  # Your Raspberry Pi IP and token endpoint
+TOKEN_URL = "http://192.168.1.42:8000/auth/token"  # Replace with Rasberry Pi IP adress 
 CLIENT_ID = "device_connector"
 CLIENT_SECRET = "82b9e9e2558940df96a813ff69e7dfd4"
 GRANT_TYPE = "client_credentials"
