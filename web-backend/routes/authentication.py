@@ -1,5 +1,5 @@
-from authentication.tokens import Token, TokenManager
-from authentication.clients import ApiClientStore
+from ..authentication.tokens import Token, TokenManager
+from ..authentication.clients import ApiClientStore
 from fastapi import APIRouter, Depends, HTTPException, status, Form
 
 router = APIRouter(

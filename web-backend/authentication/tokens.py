@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from pydantic import BaseModel
-from authentication.clients import ApiClientStore
+from ..authentication.clients import ApiClientStore
 
 # Config
 #TODO MOVE TO ENV VARIABLES FOR PROD
