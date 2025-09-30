@@ -22,16 +22,16 @@ class ApiClient:
         self.token = response["access_token"]
         self.client.headers["Authorization"] = "Bearer " + self.token
     
-    async def sendColour(self, alert:ColourAlert):
+    async def sendColour(self, alert: ColourAlert):
         if self.token is None:
             await self.GetToken()
 
-        await self.client.request("/liquid/colour", "POST", alert)
+        await self.client.request("/liquid/colour", "POST", alert.dict())
 
-    async def sendLiquidDetected(self):
+    async def sendBloodDetected(self, blood_alert: BloodAlert):
         if self.token is None:
             await self.GetToken()
 
-        await self.client.request("/liquid/detected", "POST")
+        await self.client.request("/liquid/blood", "POST", blood_alert.dict())
 
     
