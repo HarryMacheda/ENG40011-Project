@@ -19,8 +19,6 @@ import json
 import sys
 import time
 import math
-import threading
-import asyncio
 import tkinter as tk
 from pathlib import Path
 
@@ -361,20 +359,16 @@ def update_tile(ch):
         v = apply_wb(v, cal["wb"])
         
         # Convert normalized linear rgb [0-1] to 0-255 8bit integers
-        linear_rgb_255 = [clamp8(x * 255.0) for x in v]
+    linear_rgb_255 = [clamp8(x * 255.0) for x in v]
 
-        # Send to API client using receiveColour coroutine
-        try:
-            colour_alert = ColourAlert(
-                channel=ch,
-                linear_rgb=linear_rgb_255
-            )
-            asyncio.run_coroutine_threadsafe(
-                api_client.receiveColour(colour_alert),
-                loop
-            )
-        except Exception as ex:
-            print(f"[API] Error sending data for channel {ch}: {ex}")
+    # Send to API client using sendRGB coroutine with channel and linear_rgb_255 arguments
+    try:
+        asyncio.run_coroutine_threadsafe(
+            sendRGB(ch, linear_rgb_255),  # Pass raw data, not ColourAlert instance
+            loop
+        )
+    except Exception as ex:
+        print(f"[API] Error sending data for channel {ch}: {ex}")
 
         # ... rest of update_tile code unchanged ...
         
@@ -474,3 +468,9 @@ root.bind("<Key>", on_key)
 highlight_selection()
 root.after(REFRESH_MS, tick)
 root.mainloop()
+
+async def sendRGB(channel: int, linear_rgb: List[int]):
+    colour_alert = await api_client.receiveColour(channel, linear_rgb)
+    await api_client.sendColour(colour_alert)
+
+
