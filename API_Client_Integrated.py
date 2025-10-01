@@ -15,13 +15,8 @@
 #   r    = reset cal for current channel
 #   q    = quit
 
-import json
-import sys
-import time
-import math
 import tkinter as tk
 from pathlib import Path
-
 import numpy as np
 import board
 import busio
@@ -29,6 +24,14 @@ import adafruit_tcs34725
 
 from DeviceApiClient.ApiClient import ApiClient
 from StandardLibrary.PythonTypes import ColourAlert
+
+import json
+import sys
+import time
+import math
+import threading
+import asyncio
+from typing import List
 
 
 # --------- PCA9548A wrapper ---------
@@ -472,5 +475,6 @@ root.mainloop()
 async def sendRGB(channel: int, linear_rgb: List[int]):
     colour_alert = await api_client.receiveColour(channel, linear_rgb)
     await api_client.sendColour(colour_alert)
+
 
 
