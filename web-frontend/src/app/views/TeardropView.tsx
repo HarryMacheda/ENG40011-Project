@@ -19,7 +19,7 @@ export default function TeardropView() {
         if(lastMessage && lastMessage.isBlood) {
            showAlert("Blood detected!", "error")
         }
-    }, lastMessage)
+    }, [lastMessage])
 
     return (<>
         <Teardrop value={50} size={500} colour={lastMessage ? ColourToHex(lastMessage) : undefined} />  

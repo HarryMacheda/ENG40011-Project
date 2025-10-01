@@ -14,8 +14,10 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <AlertsProvider>
-          <Box display="flex" flexDirection="column" alignItems="center" gap={4}>
-            <TeardropView/>
+          <Box width={"100%"} height={"100%"}>
+            <Box display="flex" flexDirection="column" alignItems="center" gap={4} justifyContent={"center"} height={"100%"}>
+              <TeardropView/>
+            </Box>
           </Box>
         </AlertsProvider>
       </AuthProvider>

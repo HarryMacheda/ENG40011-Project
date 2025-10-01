@@ -10,11 +10,11 @@ router = APIRouter(
     tags=["liquid", "blood", "alert"]
 )
 
-connectionManager = WebSocketManager()
+detectionManager = WebSocketManager()
 
 @router.post("/detected")
 async def post_detected_liquid(token:dict = Depends(TokenManager.requireScope("write"))):
-    await connectionManager.broadcast("true")
+    await detectionManager.broadcast("true")
     return Response(status_code=200)
 
 @router.websocket("/detected/subscribe")
@@ -26,17 +26,19 @@ async def subscribe_messages(websocket: WebSocket):
 
     token = TokenManager.checkScope(TokenManager().decodeAccessToken(token), "read")
 
-    await connectionManager.connect(websocket)
+    await detectionManager.connect(websocket)
     try:
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
-        connectionManager.disconnect(websocket)
+        detectionManager.disconnect(websocket)
 
+
+colourManager = WebSocketManager()
 
 @router.post("/colour")
 async def post_detected_liquid(alert:ColourAlert ,token:dict = Depends(TokenManager.requireScope("write"))):
-    await connectionManager.broadcast(alert)
+    await colourManager.broadcast(alert)
     return Response(status_code=200)
 
 @router.websocket("/colour/subscribe")
@@ -48,9 +50,9 @@ async def subscribe_messages(websocket: WebSocket):
 
     token = TokenManager.checkScope(TokenManager().decodeAccessToken(token), "read")
 
-    await connectionManager.connect(websocket)
+    await colourManager.connect(websocket)
     try:
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect:
-        connectionManager.disconnect(websocket)
+        colourManager.disconnect(websocket)
