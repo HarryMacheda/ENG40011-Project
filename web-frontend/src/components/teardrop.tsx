@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { darkenHex } from "@/utility/colour";
 
 
-export default function Teardrop({ value = 50, size = 150, colour="#d90429"}) {
+export default function Teardrop({ value = 50, size = 150, colour="#121212"}) {
   const safeValue = Math.min(Math.max(value, 0), 100);
 
   const fillHeight = (safeValue / 100) * 125;
