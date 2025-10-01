@@ -365,13 +365,13 @@ def update_tile(ch):
     linear_rgb_255 = [clamp8(x * 255.0) for x in v]
 
     # Send to API client using sendRGB coroutine with channel and linear_rgb_255 arguments
-    try:
-        asyncio.run_coroutine_threadsafe(
-            sendRGB(ch, linear_rgb_255),  # Pass raw data, not ColourAlert instance
-            loop
-        )
-    except Exception as ex:
-        print(f"[API] Error sending data for channel {ch}: {ex}")
+        try:
+            asyncio.run_coroutine_threadsafe(
+                sendRGB(ch, linear_rgb_255),  # Pass raw data, not ColourAlert instance
+                loop
+            )
+        except Exception as ex:
+            print(f"[API] Error sending data for channel {ch}: {ex}")
 
         # ... rest of update_tile code unchanged ...
         
@@ -475,6 +475,7 @@ root.mainloop()
 async def sendRGB(channel: int, linear_rgb: List[int]):
     colour_alert = await api_client.receiveColour(channel, linear_rgb)
     await api_client.sendColour(colour_alert)
+
 
 
 
