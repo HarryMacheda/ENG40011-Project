@@ -1,7 +1,7 @@
-from authentication.tokens import Token, TokenManager
+from ..authentication.tokens import Token, TokenManager
 from fastapi import APIRouter, Response, WebSocket, WebSocketDisconnect, Depends, status
-from utility.websockets import WebSocketManager
-from utility.types import ColourAlert
+from ..utility.websockets import WebSocketManager
+from StandardLibrary.PythonTypes import ColourAlert
 
 import jwt 
 
