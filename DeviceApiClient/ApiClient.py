@@ -22,35 +22,13 @@ class ApiClient:
         self.token = response["access_token"]
         self.client.headers["Authorization"] = "Bearer " + self.token
 
-    def isBloodDetected(self, linear_rgb: list[int]) -> bool:
-        r, g, b = linear_rgb
-        
-        r_min, r_max = 150, 255
-        g_min, g_max = 0, 80
-        b_min, b_max = 0, 80
-    
-        return r_min <= r <= r_max and g_min <= g <= g_max and b_min <= b <= b_max
-                 
-    async def receiveColour(self, channel: int, linear_rgb: List[int]) -> ColourAlert:
-        alert = ColourAlert(channel=channel, linear_rgb=linear_rgb)
-        return alert
-    
-    
     async def sendColour(self, alert: ColourAlert):
         if self.token is None:
             await self.GetToken()
-        await self.client.request("/liquid/colour", "POST", alert.dict())
+        await self.client.request("/liquid/colour", "POST", alert)
 
-    async def sendBloodDetected(self, channel: int, linear_rgb: list[int]) -> BloodAlert:
+    async def sendLiquidDetected(self):
         if self.token is None:
             await self.GetToken()
-        
-        is_blood = self.is_blood_detected(linear_rgb)
-        blood_alert = BloodAlert(channel=channel, isBlood=is_blood)
-        
-        if is_blood:
-            await self.client.request("/liquid/blood", "POST", blood_alert.dict())
-        
-        return blood_alert
 
-    
+        await self.client.request("/liquid/detected", "POST")

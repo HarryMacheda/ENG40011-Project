@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from typing import List
 
-class ColourAlert(BaseModel):
-    channel: int
-    linear_rgb: List[int]
+class Colour(BaseModel):
+    r: int
+    g: int
+    b: int
 
-class BloodAlert(BaseModel):
-    channel: int
+class ColourAlert(Colour):
     isBlood: bool
