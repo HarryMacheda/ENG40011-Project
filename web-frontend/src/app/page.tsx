@@ -3,7 +3,6 @@ import React from "react";
 import { Box, Button, ThemeProvider } from "@mui/material";
 import { AuthProvider } from "@/contexts/auth";
 import theme from "@/theme";
-import TeardropView from "./views/TeardropView";
 import { AlertsProvider } from "@/contexts/alerts";
 import AllPatients from "./views/AllPatients";
 
