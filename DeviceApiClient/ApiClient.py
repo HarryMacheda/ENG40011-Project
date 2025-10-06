@@ -25,10 +25,10 @@ class ApiClient:
     async def sendColour(self, room: str, alert: ColourAlert):
         if self.token is None:
             await self.GetToken()
-        await self.client.request("/liquid/{room}/colour", "POST", alert)
+        await self.client.request(f"/liquid/{room}/colour", "POST", alert)
 
     async def sendLiquidDetected(self, room: str):
         if self.token is None:
             await self.GetToken()
 
-        await self.client.request("/liquid/{room}/detected", "POST")
+        await self.client.request(f"/liquid/{room}/detected", "POST")
