@@ -20,8 +20,8 @@ export default function Teardrop({ value = 50, size = 150, colour="#121212"}) {
       >
         <path
           d="M50 5 C20 55, 5 80, 25 110 Q50 140, 75 110 C95 80, 80 55, 50 5 Z"
-          fill="#121212"
-          stroke="#ffffff"
+          fill="#ffffff"
+          stroke="#121212"
           strokeWidth="2"
         />
 
@@ -43,14 +43,14 @@ export default function Teardrop({ value = 50, size = 150, colour="#121212"}) {
         <path
           d="M50 5 C20 55, 5 80, 25 110 Q50 140, 75 110 C95 80, 80 55, 50 5 Z"
           fill="None"
-          stroke="#ffffff"
-          strokeWidth="2"
+          stroke="#121212"
+          strokeWidth="5"
         />
       </svg>
 
-      <Typography variant="h6" mt={1}>
+      {/* <Typography variant="h6" mt={1}>
         {(2 * (safeValue / 100)) * 1000} ml
-      </Typography>
+      </Typography> */}
     </Box>
   );
 }

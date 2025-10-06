@@ -8,3 +8,9 @@ class Colour(BaseModel):
 
 class ColourAlert(Colour):
     isBlood: bool
+
+class PatientInfo(BaseModel):
+    room: str
+    firstName: str
+    lastName: str
+    bloodType: str

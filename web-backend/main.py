@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .routes import authentication, liquid
+from .routes import authentication, liquid, patients
 
 app = FastAPI()
 
@@ -19,3 +19,4 @@ async def ping():
 
 app.include_router(authentication.router)
 app.include_router(liquid.router)
+app.include_router(patients.router)

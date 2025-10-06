@@ -1,0 +1,22 @@
+[
+    {"room": "101A", "firstName": "Alice", "lastName": "Smith", "bloodType": "A+"},
+    {"room": "101B", "firstName": "Bob", "lastName": "Johnson", "bloodType": "O-"},
+    {"room": "102A", "firstName": "Charlie", "lastName": "Lee", "bloodType": "B+"},
+    {"room": "102B", "firstName": "Diana", "lastName": "Brown", "bloodType": "AB-"},
+    {"room": "103A", "firstName": "Ethan", "lastName": "Davis", "bloodType": "O+"},
+    {"room": "103B", "firstName": "Fiona", "lastName": "Miller", "bloodType": "A-"},
+    {"room": "104A", "firstName": "George", "lastName": "Wilson", "bloodType": "B-"},
+    {"room": "104B", "firstName": "Hannah", "lastName": "Moore", "bloodType": "AB+"},
+    {"room": "105A", "firstName": "Ian", "lastName": "Taylor", "bloodType": "O+"},
+    {"room": "105B", "firstName": "Jane", "lastName": "Anderson", "bloodType": "A+"},
+    {"room": "106A", "firstName": "Kyle", "lastName": "Thomas", "bloodType": "B+"},
+    {"room": "106B", "firstName": "Laura", "lastName": "Jackson", "bloodType": "AB-"},
+    {"room": "107A", "firstName": "Mike", "lastName": "White", "bloodType": "O-"},
+    {"room": "107B", "firstName": "Nina", "lastName": "Harris", "bloodType": "A-"},
+    {"room": "108A", "firstName": "Oliver", "lastName": "Martin", "bloodType": "B+"},
+    {"room": "108B", "firstName": "Paula", "lastName": "Thompson", "bloodType": "AB+"},
+    {"room": "109A", "firstName": "Quinn", "lastName": "Garcia", "bloodType": "O+"},
+    {"room": "109B", "firstName": "Rachel", "lastName": "Martinez", "bloodType": "A+"},
+    {"room": "110A", "firstName": "Steve", "lastName": "Robinson", "bloodType": "B-"},
+    {"room": "110B", "firstName": "Tina", "lastName": "Clark", "bloodType": "AB-"}
+]

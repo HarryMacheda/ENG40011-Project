@@ -12,9 +12,9 @@ router = APIRouter(
 
 detectionManager = WebSocketManager()
 
-@router.post("/detected")
-async def post_detected_liquid(token:dict = Depends(TokenManager.requireScope("write"))):
-    await detectionManager.broadcast("true")
+@router.post("/{room}/detected")
+async def post_detected_liquid(room:str, token:dict = Depends(TokenManager.requireScope("write"))):
+    await detectionManager.broadcast_json({"room": room})
     return Response(status_code=200)
 
 @router.websocket("/detected/subscribe")
@@ -36,13 +36,13 @@ async def subscribe_messages(websocket: WebSocket):
 
 colourManager = WebSocketManager()
 
-@router.post("/colour")
-async def post_detected_liquid(alert:ColourAlert ,token:dict = Depends(TokenManager.requireScope("write"))):
-    await colourManager.broadcast(alert)
+@router.post("/{room}/colour")
+async def post_detected_liquid(room:str, alert:ColourAlert , token:dict = Depends(TokenManager.requireScope("write"))):
+    await colourManager.broadcast_json(alert, key=room)
     return Response(status_code=200)
 
 @router.websocket("/colour/subscribe")
-async def subscribe_messages(websocket: WebSocket):
+async def subscribe_messages(websocket: WebSocket, room: str = None):
     token = websocket.query_params.get("token")
     if not token:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
@@ -50,7 +50,7 @@ async def subscribe_messages(websocket: WebSocket):
 
     token = TokenManager.checkScope(TokenManager().decodeAccessToken(token), "read")
 
-    await colourManager.connect(websocket)
+    await colourManager.connect(websocket, key=room)
     try:
         while True:
             await websocket.receive_text()
