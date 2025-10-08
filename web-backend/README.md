@@ -10,6 +10,6 @@ in this directory
 ## Running
 This uses fast api which can be ran via uvicorn via
 `
- python3 -m uvicorn main:app --reload
+ python3 -m uvicorn web-backendmain:app --reload --host 0.0.0.0
 `
-in this directory
+in root directory
