@@ -1,7 +1,7 @@
 "use client"
 import { ApiClient } from "@/utility/api-client";
 import { useEffect, useMemo, useState } from "react";
-import { useAuth } from "@/contexts/auth";
+import { API_URL, useAuth } from "@/contexts/auth";
 import Teardrop from "@/components/teardrop";
 import { Box, CircularProgress, Container, Grid, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import { ColourToHex } from "@/utility/colour";
@@ -10,11 +10,12 @@ import { PatientInfo } from "@/utility/types";
 import { Patient } from "@/components/patient";
 import { PatientDialog } from "@/components/PatientDialog";
 import { useWebSocket } from "@/hooks/useWebSockets";
+import { Capacitor } from "@capacitor/core";
 
 
 export default function AllPatients() { 
     const {token} = useAuth();
-    const apiClient = useMemo(() => new ApiClient({baseUrl:"http://127.0.0.1:8000", headers:{"Authorization":`Bearer ${token}`}}), [token]);
+    const apiClient = useMemo(() => new ApiClient({baseUrl:`https://${API_URL}`, headers:{"Authorization":`Bearer ${token}`}}), [token]);
     const [patients, setPatients] = useState<PatientInfo[]>([]);
     const [loading, setLoading] = useState(true);
     const {lastMessage} = useWebSocket(apiClient, `/liquid/detected/subscribe?token=${token}` );
@@ -64,10 +65,20 @@ export default function AllPatients() {
     }
 
     return (<>
-        <Container sx={{ padding: 1, width:"100%", margin:0, maxWidth:"100% !important" }}>
+        <Container
+            sx={{
+                padding: 1,
+                width: "100%",
+                margin: 0,
+                maxWidth: "100% !important",
+                height: "100%",       // fill parent
+                overflowY: "auto",    // enable vertical scroll
+                boxSizing: "border-box",
+            }}
+        >
             <Grid container spacing={2}>
                 {patients.map((p) => (
-                    <Grid size={3} key={p.room}>
+                    <Grid size={Capacitor.isNativePlatform() ? 12 : 3} key={p.room}>
                         <Patient patient={p} />
                     </Grid>
                 ))}

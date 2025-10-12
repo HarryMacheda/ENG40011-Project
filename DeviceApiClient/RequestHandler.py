@@ -20,7 +20,7 @@ class RequestHandler:
         url = f"{self.base_url}{endpoint}"
         method = method.upper()
 
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(verify=False) as client:
             request_headers = self.headers.copy()
             if isForm and body is not None:
                 data = body

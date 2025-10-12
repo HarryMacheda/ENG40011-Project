@@ -77,7 +77,7 @@ async def sensor_loop(room, channel, sensor, matrix, client):
 
 async def device_loop(room):
     matrix = ColourSensorMatrix(num_channels=SENSORS_PER_DEVICE)
-    client = ApiClient("http://172.22.64.1:8000")
+    client = ApiClient("https://192.168.1.143:8000")
     tasks = []
 
     for channel in matrix.channels:

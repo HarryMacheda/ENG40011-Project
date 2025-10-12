@@ -45,7 +45,7 @@ export class ApiClient {
 
 
     connectWebSocket(path: string): WebSocket {
-        const url = this.baseUrl.replace(/^http/, "ws") + path;
+        const url = this.baseUrl.replace(/^https/, "wss") + path;
         const ws = new WebSocket(url);
 
         ws.onopen = () => {console.log("WebSocket connected:", url);};

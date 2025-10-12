@@ -1,5 +1,5 @@
 import { useAlerts } from "@/contexts/alerts";
-import { useAuth } from "@/contexts/auth";
+import { API_URL, useAuth } from "@/contexts/auth";
 import { useWebSocket } from "@/hooks/useWebSockets";
 import { ApiClient } from "@/utility/api-client";
 import { useEffect, useMemo } from "react";
@@ -13,7 +13,7 @@ type LiquidSensorProps = {
 
 export const LiquidSensor: React.FC<LiquidSensorProps> = ({ room }) => {
     const {token} = useAuth();
-    const apiClient = useMemo(() => new ApiClient({baseUrl:"http://127.0.0.1:8000"}), [token]);
+    const apiClient = useMemo(() => new ApiClient({baseUrl:`https://${API_URL}`}), [token]);
     const {lastMessage} = useWebSocket(apiClient, `/liquid/colour/subscribe?token=${token}&room=${room}`, );
     const { showAlert } = useAlerts();
 

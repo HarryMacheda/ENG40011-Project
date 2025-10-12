@@ -10,6 +10,6 @@ in this directory
 ## Running
 This uses fast api which can be ran via uvicorn via
 `
- python3 -m uvicorn web-backend.main:app --reload --host 0.0.0.0
+ python3 -m uvicorn web-backend.main:app --reload --host 0.0.0.0 --ssl-certfile=certs/localhost.crt --ssl-keyfile=certs/localhost.key
 `
 in root directory
