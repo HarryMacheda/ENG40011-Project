@@ -14,3 +14,8 @@ class PatientInfo(BaseModel):
     firstName: str
     lastName: str
     bloodType: str
+
+class User(BaseModel):
+    username: str
+    password: str
+    scopes: List[str] = []

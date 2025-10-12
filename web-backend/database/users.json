@@ -1,0 +1,16 @@
+[
+    {
+        "username": "test1",
+        "password": "password",
+        "scopes": [
+            "read"
+        ]
+    },
+    {
+        "username": "test2",
+        "password": "password",
+        "scopes": [
+            "read"
+        ]
+    }
+]
