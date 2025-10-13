@@ -48,7 +48,8 @@ class ColourSensorMatrix:
 
     MUX_ADDR = 0x70
     TARGET_ADDR = 0x29
-    CAL_PATH = Path.home() / ".tcs34725_cal_mux.json"
+    CAL_PATH = Path(__file__).parent / "tcs34725_cal_mux.json"
+
 
     IT_VALUES   = [2.4, 24, 50, 101, 154]
     GAIN_VALUES = [1, 4, 16]
