@@ -94,37 +94,23 @@ class ColourSensorMatrix:
                 found.append(ch)
         return found
 
-    def _default_cal(self):
-        return {
-            "wb": [1.0, 1.0, 1.0],
-            "ccm": np.eye(3).tolist(),
-            "gamma": 2.2,
-            "saturation": 1.0,
-            "ccm_enabled": True
-        }
-
     def _load_calibration(self):
-        if self.CAL_PATH.exists():
-            try:
-                cal = json.loads(self.CAL_PATH.read_text())
-            except Exception:
-                cal = {}
-        else:
-            cal = {}
-        for ch in self.channels:
-            cal.setdefault(str(ch), self._default_cal())
+        if not self.CAL_PATH.exists():
+            raise FileNotFoundError(f"Calibration file not found: {self.CAL_PATH}")
+        try:
+            cal = json.loads(self.CAL_PATH.read_text())
+        except Exception as e:
+            raise RuntimeError(f"Failed to parse calibration JSON at {self.CAL_PATH}: {e}")
+        missing = [str(ch) for ch in self.channels if str(ch) not in cal]
+        if missing:
+            raise KeyError(f"Calibration missing for channel(s): {', '.join(missing)} in {self.CAL_PATH}")
         return cal
 
-    def _save_calibration(self):
-        out = {}
-        for k, v in self.cal_db.items():
-            vv = dict(v)
-            vv["ccm"] = np.asarray(vv["ccm"], dtype=float).tolist()
-            out[k] = vv
-        self.CAL_PATH.write_text(json.dumps(out, indent=2))
-
     def get_cal(self, ch):
-        return self.cal_db[str(ch)]
+        key = str(ch)
+        if key not in self.cal_db:
+            raise KeyError(f"No calibration found for channel {ch} in {self.CAL_PATH}")
+        return self.cal_db[key]
 
     # --------------------------------------------------
     # Color math helpers
