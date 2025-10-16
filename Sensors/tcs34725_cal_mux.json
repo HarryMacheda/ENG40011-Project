@@ -1,57 +1,46 @@
 {
   "0": {
-    "wb": [1.059, 1.0, 1.145],  // Corrected R and B channels relative to G (G_s / R_s and G_s / B_s)
+    "wb": [1.059, 1.0, 1.145],
     "ccm": [
-      [1.059, 0.0, 0.0],       // R channel gain (0.752 / 0.710)
-      [0.0, 0.169, 0.0],       // G channel gain (0.120 / 0.710)
-      [0.0, 0.0, 0.214]        // B channel gain (0.152 / 0.710)
+      [1.059, 0.0, 0.0],
+      [0.0, 0.169, 0.0],
+      [0.0, 0.0, 0.214]
     ],
     "gamma": 2.2,
     "saturation": 1.0,
     "ccm_enabled": true
   },
-
-{
   "1": {
-    "wb": [1.059, 1.0, 1.145],  // Corrected R and B channels relative to G (G_s / R_s and G_s / B_s)
+    "wb": [1.059, 1.0, 1.145],
     "ccm": [
-      [1.059, 0.0, 0.0],       // R channel gain (0.752 / 0.710)
-      [0.0, 0.169, 0.0],       // G channel gain (0.120 / 0.710)
-      [0.0, 0.0, 0.214]        // B channel gain (0.152 / 0.710)
+      [1.059, 0.0, 0.0],
+      [0.0, 0.169, 0.0],
+      [0.0, 0.0, 0.214]
     ],
     "gamma": 2.2,
     "saturation": 1.0,
     "ccm_enabled": true
   },
-
-  {
   "2": {
-    "wb": [1.059, 1.0, 1.145],  // Corrected R and B channels relative to G (G_s / R_s and G_s / B_s)
+    "wb": [1.059, 1.0, 1.145],
     "ccm": [
-      [1.059, 0.0, 0.0],       // R channel gain (0.752 / 0.710)
-      [0.0, 0.169, 0.0],       // G channel gain (0.120 / 0.710)
-      [0.0, 0.0, 0.214]        // B channel gain (0.152 / 0.710)
+      [1.059, 0.0, 0.0],
+      [0.0, 0.169, 0.0],
+      [0.0, 0.0, 0.214]
     ],
     "gamma": 2.2,
     "saturation": 1.0,
     "ccm_enabled": true
   },
-
-  {
   "3": {
-    "wb": [1.059, 1.0, 1.145],  // Corrected R and B channels relative to G (G_s / R_s and G_s / B_s)
+    "wb": [1.059, 1.0, 1.145],
     "ccm": [
-      [1.059, 0.0, 0.0],       // R channel gain (0.752 / 0.710)
-      [0.0, 0.169, 0.0],       // G channel gain (0.120 / 0.710)
-      [0.0, 0.0, 0.214]        // B channel gain (0.152 / 0.710)
+      [1.059, 0.0, 0.0],
+      [0.0, 0.169, 0.0],
+      [0.0, 0.0, 0.214]
     ],
     "gamma": 2.2,
     "saturation": 1.0,
     "ccm_enabled": true
   }
 }
-
-
-
-
-  
