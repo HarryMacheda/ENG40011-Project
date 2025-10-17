@@ -205,3 +205,22 @@ class ColourSensorMatrix:
     def get_all_colors(self):
         """Return {channel: [R,G,B]} for all detected sensors."""
         return {ch: self.get_color(ch) for ch in self.channels}
+
+if __name__ == "__main__":
+    import traceback, sys
+    print("Starting ColourSensorMatrix", flush=True)
+    cal_path = (Path(__file__).parent / "tcs34725_cal_mux.json").resolve()
+    print("CAL_PATH:", cal_path, flush=True)
+    print("CAL_PATH exists:", cal_path.exists(), flush=True)
+    try:
+        m = ColourSensorMatrix()
+        print("Detected mux channels with sensors:", m.channels, flush=True)
+        print("Loaded calibration keys:", sorted(m.cal_db.keys()), flush=True)
+        while True:
+            print(json.dumps(m.get_all_colors()), flush=True)
+            time.sleep(0.5)
+    except Exception as e:
+        print("ERROR:", e, flush=True)
+        traceback.print_exc()
+        sys.exit(1)
+
