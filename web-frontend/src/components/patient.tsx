@@ -41,7 +41,8 @@ export const Patient: React.FC<PatientProps> = ({ patient }) => {
         {/* Left side: existing patient info */}
         <Box sx={{ flex: 1 }}>
           <Typography variant="h6" component="div" gutterBottom>
-            {patient.firstName} {patient.lastName}
+            {patient.firstName} <br/>
+            {patient.lastName}
           </Typography>
           <Typography color="text.secondary">Room: {patient.room}</Typography>
           <Box
@@ -71,7 +72,7 @@ export const Patient: React.FC<PatientProps> = ({ patient }) => {
             justifyContent: "center",
           }}
         >
-          <LiquidSensor room={patient.room}/>
+          <LiquidSensor patient={patient}/>
         </Box>
       </CardContent>
     </Card>

@@ -1,51 +1,110 @@
 // AlertsContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Snackbar, Alert as MuiAlert, AlertColor } from '@mui/material';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  AlertColor,
+  Box,
+  Typography,
+} from '@mui/material';
+import { keyframes } from '@emotion/react';
 
 type Alert = {
-  message: string;
+  title?: string;
+  message: ReactNode;
   severity: AlertColor; // 'error' | 'warning' | 'info' | 'success'
 };
 
 type AlertsContextType = {
-  showAlert: (message: string, severity?: AlertColor) => void;
+  showAlert: (message: ReactNode, severity?: AlertColor, title?: string) => void;
+  closeAlert: () => void;
 };
 
 const AlertsContext = createContext<AlertsContextType | undefined>(undefined);
+
+const flashRed = keyframes`
+  0%, 100% { background-color: #ffb3b3; } 
+  50% { background-color: #ff0000; }
+`;
 
 export const AlertsProvider = ({ children }: { children: ReactNode }) => {
   const [alert, setAlert] = useState<Alert | null>(null);
   const [open, setOpen] = useState(false);
 
-  const showAlert = (message: string, severity: AlertColor = 'info') => {
-    setAlert({ message, severity });
+  const showAlert = (
+    message: ReactNode,
+    severity: AlertColor = 'info',
+    title?: string
+  ) => {
+    setAlert({ message, severity, title });
     setOpen(true);
   };
 
-  const handleClose = (_?: any, reason?: string) => {
-    if (reason === 'clickaway') return;
+  const closeAlert = () => {
     setOpen(false);
   };
 
   return (
-    <AlertsContext.Provider value={{ showAlert }}>
+    <AlertsContext.Provider value={{ showAlert, closeAlert }}>
       {children}
+
       {alert && (
-        <Snackbar 
-            open={open} 
-            autoHideDuration={3000} 
-            onClose={handleClose}
-            anchorOrigin={{ vertical:"top", horizontal:"center" }}
+        <Dialog
+          open={open}
+          onClose={closeAlert}
+          fullWidth
+          maxWidth="sm"
+          PaperProps={{
+            sx: {
+              animation: alert.severity === 'error' ? `${flashRed} 1s infinite` : undefined,
+              backgroundColor: 'background.paper',
+              borderRadius: 3,
+              p: 2,
+              boxShadow: 6,
+            },
+          }}
         >
-          <MuiAlert 
-            onClose={handleClose} 
-            severity={alert.severity} 
-            sx={{ width: '100%' }}
-            variant='filled'
-          >
-            {alert.message}
-          </MuiAlert>
-        </Snackbar>
+          {alert.title && (
+            <DialogTitle
+              sx={{
+                color: "#FFFFFF",
+                fontSize: "2rem",            
+                fontWeight: 'bold',
+              }}
+            >
+              {alert.title}
+            </DialogTitle>
+          )}
+
+          <DialogContent>
+            {typeof alert.message === 'string' ? (
+              <Typography>{alert.message}</Typography>
+            ) : (
+              alert.message
+            )}
+          </DialogContent>
+
+          <DialogActions>
+            <Button
+              variant="contained"
+              color={
+                alert.severity === 'error'
+                  ? 'error'
+                  : alert.severity === 'warning'
+                  ? 'warning'
+                  : alert.severity === 'success'
+                  ? 'success'
+                  : 'info'
+              }
+              onClick={closeAlert}
+            >
+              OK
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
     </AlertsContext.Provider>
   );

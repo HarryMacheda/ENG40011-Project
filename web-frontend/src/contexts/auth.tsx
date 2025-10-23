@@ -46,6 +46,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
+  const inputStyle = {
+    '& .MuiOutlinedInput-root': {
+      transition: 'background-color 0.2s ease, border-color 0.2s ease',
+      '& fieldset': {
+        borderColor: 'primary.main',
+      },
+      '&:hover fieldset': {
+        borderColor: 'primary.dark',
+      },
+      '&.Mui-focused': {
+        backgroundColor: '#0c0c0cff', // darker background when focused
+        '& fieldset': {
+          borderColor: 'primary.main',
+        },
+      },
+    },
+    '& .MuiInputLabel-root': {
+      color: 'primary.main',
+      '&.Mui-focused': {
+        color: 'primary.main',
+      },
+    },
+    '& .MuiInputBase-input': {
+      color: 'primary.main',
+    },
+  };
+
+
+
   if (!token) {
     return (
       <Box
@@ -69,7 +98,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               value={usernameInput}
               onChange={(e) => setUsernameInput(e.target.value)}
               fullWidth
-              variant="filled"
+              variant="outlined"
+              sx={inputStyle}
             />
             <TextField
               label="Password"
@@ -77,7 +107,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
               fullWidth
-              variant="filled"
+              variant="outlined"
+              sx={inputStyle}
             />
             {error && (
               <Typography color="error" variant="body2">
