@@ -63,7 +63,7 @@ async def main():
                 print(f"Error sending detection {e}")
                 pass
 
-            for i in range(matrix.channels.__len__() - 1):
+            for i in range(matrix.channels.__len__()):
                 channel = matrix.channels[i]
                 rgb = matrix.get_color(channel)
 
@@ -74,7 +74,8 @@ async def main():
                     print(alert)
                     await client.sendColour(DEVICE_ROOM, alert)
                     print(f"Colour sent to server for channel {channel} {alert}")
-                    break
+                    if alert.isBlood == True:
+                        break
                 except Exception as e:
                     print(f"Failed to send colour: {e}")
         except Exception as e:
